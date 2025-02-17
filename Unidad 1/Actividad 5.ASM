@@ -165,16 +165,18 @@ M=D
 //15. Implementa en ensamblador el siguiente problema. En la posición R0 está almacenada la dirección inicial de una región de memoria. 
 En la posición R1 está almacenado el tamaño de la región de memoria. Almacena un -1 en esa región de memoria.//
 
-@R1       // Cargar en D el valor almacenado en la dirección R1 (tamaño de la región de memoria)
+@R1      
 D=M       
-@R0       // Apuntar a la dirección inicial de la región de memoria
+@R0    
 A=M       
-M=-1      // Almacenar -1 en la dirección actual de memoria
-@R0       // Incrementar la dirección en R0 para apuntar a la siguiente posición
+M=-1    
+@R0    
 M=M+1     
-D=D-1     // Decrementar el contador D (tamaño restante)
-@2        // Si D aún es mayor que 0, repetir el proceso
+D=D-1     
+@2       
 D;JGT
+
+//Este programa llena un bloque de memoria con -1, comenzando desde la dirección almacenada en R0, y repitiéndose R1 veces.
 
 //16. Implementa en lenguaje ensamblador el siguiente programa:
 int[] arr = new int[10];
@@ -191,6 +193,7 @@ M=A
 D=D-A
 @69
 D;JEQ
+//guarda el dato 69 en la memroria 69, le resta 7 a D y si da 0 salta a la direccion 69
 
 //18. Utiliza esta herramienta para dibujar un bitmap en la pantalla.
 
@@ -236,50 +239,50 @@ function void draw(int location) {
 
 //19. Analiza el siguiente programa en lenguaje de máquina: ¿que hace este programa?
 
-@16384        // 0100000000000000  - Cargar la dirección base de la pantalla en A
-D=A           // 1110110000010000  - Guardar en D
-@16           // 0000000000010000  - Cargar 16 en A
-M=D           // 1110001100001000  - Guardar D en la dirección 16
+@16384        // 0100000000000000  
+D=A           // 1110110000010000  
+@16           // 0000000000010000  
+M=D           // 1110001100001000 
 
-@24576        // 0110000000000000  - Cargar 24576 (teclado) en A
-D=M           // 1111110000010000  - Leer valor del teclado y guardar en D
-@19           // 0000000000010011  - Cargar 19 en A
-D;JEQ         // 1110001100000101  - Si D == 0, saltar a la instrucción en 19
+@24576        // 0110000000000000  
+D=M           // 1111110000010000  
+@19           // 0000000000010011  
+D;JEQ         // 1110001100000101  
 
-@16           // 0000000000010000  - Cargar 16 en A
-D=M           // 1111110000010000  - Leer el valor de la dirección 16
-@16384        // 0100000000000000  - Cargar la dirección base de la pantalla
-M=D           // 1110010011010000  - Escribir el valor en la pantalla
+@16           // 0000000000010000  
+D=M           // 1111110000010000  
+@16384        // 0100000000000000  
+M=D           // 1110010011010000  
 
-@4            // 0000000000000100  - Cargar 4 en A
-D;JLT         // 1110001100000110  - Si D < 0, saltar a la instrucción en 4
+@4            // 0000000000000100  
+D;JLT         // 1110001100000110  
 
-@16           // 0000000000010000  - Cargar 16 en A
-M=M+1         // 1111110010101000  - Incrementar el valor en la dirección 16
+@16           // 0000000000010000  
+M=M+1         // 1111110010101000  
 
-D=0           // 1110101010001000  - D = 0
-@4            // 0000000000000100  - Cargar 4 en A
-D;JGT         // 1110101010000111  - Si D > 0, saltar a la instrucción en 4
+D=0           // 1110101010001000  
+@4            // 0000000000000100 
+D;JGT         // 1110101010000111  
 
-@16           // 0000000000010000  - Cargar 16 en A
-D=M           // 1111110000010000  - Leer el valor de la dirección 16
+@16           // 0000000000010000  
+D=M           // 1111110000010000  
 
-@24576        // 0110000000000000  - Cargar 24576 (teclado) en A
-M=D           // 1110010011010000  - Guardar el valor en la dirección 24576 (teclado)
+@24576        // 0110000000000000  
+M=D           // 1110010011010000  
 
-@4            // 0000000000000100  - Cargar 4 en A
-D;JLE         // 1110001100000011  - Si D <= 0, saltar a la instrucción en 4
+@4            // 0000000000000100  
+D;JLE         // 1110001100000011 
 
-@16           // 0000000000010000  - Cargar 16 en A
-M=M-1         // 1111110000100000  - Decrementar el valor en la dirección 16
+@16           // 0000000000010000  
+M=M-1         // 1111110000100000 
 
-D=M           // 1110111010001000  - Guardar en D el valor de la dirección 16
+D=M           // 1110111010001000  
 
-@16           // 0000000000010000  - Cargar 16 en A
-M=M-1         // 1111110111001000  - Decrementar nuevamente el valor en la dirección 16
+@16           // 0000000000010000  
+M=M-1         // 1111110111001000  
 
-@4            // 0000000000000100  - Cargar 4 en A
-D;JGT         // 1110101010000111  - Si D > 0, saltar a la instrucción en 4
+@4            // 0000000000000100  
+D;JGT         // 1110101010000111  
 
 // Este programa parece implementar un contador basado en la entrada del teclado, actualizando la pantalla en consecuencia. 
 Si se presiona una tecla, probablemente se altere el comportamiento del contador.//

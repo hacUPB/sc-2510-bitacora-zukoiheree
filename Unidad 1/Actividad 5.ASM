@@ -114,19 +114,18 @@ M=M-1
 //12. Implemente en ensamblador:
 R4 = R1 + R2 + 69 
 
-@2
+@R2
 D=M 
-@3 
+@R3 
 M=D 
-@2 
+@R2 
 D=M 
 @3 
 D=D+M 
 @69 
 D=D+A 
-@4 
+@R4 
 M=D 
-(@4 es R4, @2 es R2  y @1 es R1)
 
 //13. Implementa en ensamblador:
 if R0 >= 0 then R1 = 1
@@ -157,10 +156,14 @@ M=D
 //14. Implementa en ensamblador:
 R4 = RAM[R1]
 
-@R1
-D=M
-@R4 
-M=D        
+@R1  
+D=M      // Cargar el valor de R1 (dirección de memoria) en D  
+A=D      // Apuntar a la dirección almacenada en R1  
+D=M      // Cargar en D el valor almacenado en esa dirección  
+@R4  
+M=D      // Guardar el valor en R4  
+// Este código copia el contenido de la posición de memoria indicada en R1 y lo almacena en R4.
+
 
 //15. Implementa en ensamblador el siguiente problema. En la posición R0 está almacenada la dirección inicial de una región de memoria. 
 En la posición R1 está almacenado el tamaño de la región de memoria. Almacena un -1 en esa región de memoria.//
@@ -184,6 +187,49 @@ int sum = 0;
 for (int j = 0; j < 10; j++) {
     sum = sum + arr[j];
 }
+
+// Inicialización
+@ARR      
+D=A        // Dirección base del array
+@J        
+M=0        // j = 0
+@SUM      
+M=0        // sum = 0
+(LOOP_SUM)
+@J
+D=M
+@10
+D=D-A
+@END_SUM
+D;JGE     // Si j >= 10, salir del bucle
+@ARR
+D=A
+@J
+A=D+M     // Acceder a arr[j]
+D=M       // D = arr[j]
+@SUM
+M=M+D     // sum = sum + arr[j]
+@J
+M=M+1     // j++
+@LOOP_SUM
+0;JMP     // Repetir el bucle
+(END_SUM)
+@END_SUM
+0;JMP     // Bucle infinito
+
+// Variables
+(ARR)   // Dirección base del array
+@1000   
+D=A
+@ARR
+M=D
+(SUM)   // Variable sum
+@0
+M=0
+(J)     // Índice j
+@0
+M=0
+
 
 //17. Implementa en lenguaje ensamblador: if ( (D - 7) == 0) goto a la instrucción en ROM[69]
 

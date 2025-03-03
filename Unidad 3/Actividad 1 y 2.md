@@ -1,8 +1,13 @@
 **Actividad 1**
+-------
+
 - ¿Cuál es el resultado que se obtiene al ejecutar este programa?
+
 Se obtiene un puntero
 
 **Actividad 2**
+-------
+
 - ¿Qué incluimos en el archivo .h?
 
 Declaración de la clase *ofApp* con métodos públicos (*setup()*, *update()*, *draw()*, *mouseMoved()*, *mousePressed()*) y variables privadas (*particles*, *particleColor*).

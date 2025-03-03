@@ -1,7 +1,8 @@
 **Actividad 3** 
+-------
 
-*Declaraciones y Métodos**
-
+**Declaraciones y Métodos**
+---
 ```
 class ofApp : public ofBaseApp{
     public:
@@ -23,7 +24,7 @@ class ofApp : public ofBaseApp{
 - **vector particles**: Almacena posiciones de partículas.
 - **ofColor particleColor**: Almacena el color de las partículas.
 
-*Implementación de Métodos*
+**Implementación de Métodos**
 --------------------------------------
 #### setup()
 

@@ -2,6 +2,7 @@
 
 *Declaraciones y Métodos**
 
+```
 class ofApp : public ofBaseApp{
     public:
         void setup();
@@ -15,6 +16,7 @@ class ofApp : public ofBaseApp{
         vector particles;
         ofColor particleColor;
 };
+```
 
 - **setup(), update(), draw()**: Son métodos básicos de OpenFrameworks para configurar, actualizar y dibujar la aplicación.
 - **mouseMoved(int x, int y) y mousePressed(int x, int y, int button)**: Manejan eventos del ratón.
@@ -25,12 +27,12 @@ class ofApp : public ofBaseApp{
 --------------------------------------
 #### setup()
 
-
+```
 void ofApp::setup(){
     ofBackground(0);
     particleColor = ofColor::white;
 }
-
+```
 
 - **ofBackground(0)**: Establece el fondo de la ventana a negro.
 - **particleColor = ofColor::white**: Establece el color inicial de las partículas en blanco.
@@ -39,13 +41,14 @@ void ofApp::setup(){
 
 #### draw()
 
+```
 void ofApp::draw(){
     for(auto &pos: particles){
         ofSetColor(particleColor);
         ofDrawCircle(pos.x, pos.y, 50);
     }
 }
-
+```
 
 - **for(auto &pos: particles)**: Itera sobre cada posición de partícula en el vector *particles*.
 - **ofSetColor(particleColor)**: Establece el color de las partículas.
@@ -54,12 +57,14 @@ void ofApp::draw(){
 
 #### mouseMoved(int x, int y)
 
+```
 void ofApp::mouseMoved(int x, int y ){
     particles.push_back(ofVec2f(x, y));
     if (particles.size() > 100) {
         particles.erase(particles.begin());
     }
 }
+```
 
 - **particles.push_back(ofVec2f(x, y))**: Agrega una nueva partícula en la posición actual del ratón.
 - **if (particles.size() > 100)**: Si hay más de 100 partículas, elimina la primera partícula agregada.
@@ -67,9 +72,11 @@ void ofApp::mouseMoved(int x, int y ){
 
 #### mousePressed(int x, int y, int button)
 
+```
 void ofApp::mousePressed(int x, int y, int button){
     particleColor = ofColor(ofRandom(255), ofRandom(255), ofRandom(255));
 }
+```
 
 - **particleColor = ofColor(ofRandom(255), ofRandom(255), ofRandom(255))**: Cambia el color de las partículas a un color aleatorio.
 ---------------------------------------
@@ -78,9 +85,9 @@ void ofApp::mousePressed(int x, int y, int button){
 
 *Modificación*
 
-En el método *mouseMoved(int x, int y)*, en lugar de agregar siempre un círculo de tamaño fijo, vamos a variar el tamaño del círculo en función de la posición `y` del ratón. Esto hará que los círculos sean más grandes cuanto más abajo se encuentren en la pantalla.
+En el método *mouseMoved(int x, int y)*, en lugar de agregar siempre un círculo de tamaño fijo, vamos a variar el tamaño del círculo en función de la posición *y* del ratón. Esto hará que los círculos sean más grandes cuanto más abajo se encuentren en la pantalla.
 
-
+```
 void ofApp::mouseMoved(int x, int y ){
     particles.push_back(ofVec2f(x, y));
     if (particles.size() > 100) {
@@ -97,7 +104,7 @@ void ofApp::draw(){
         ofDrawCircle(pos.x, pos.y, radius);
     }
 }
-
+```
 
 En este ejemplo, *ofMap(pos.y, 0, ofGetHeight(), 10, 50)* mapea la posición *y* del ratón desde el rango *[0, altura de la ventana]* al rango , lo que significa que los círculos serán más pequeños en la parte superior de la pantalla y más grandes en la parte inferior.
 

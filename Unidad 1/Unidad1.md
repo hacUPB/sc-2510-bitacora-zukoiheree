@@ -5,11 +5,14 @@ https://confusion-snapper-025.notion.site/Sistemas-Computacionales-d1806d0b62634
 **Actividad 1**
 - ¿Qué es un computador digital moderno?
   
-R// 
+R// Un computador digital moderno es un dispositivo electrónico basado en el modelo de Von Neumann, que procesa información en formato binario.
 
 - ¿Cuáles son sus partes?
   
-R//
+R// CPU: Ejecuta instrucciones y realiza cálculos.
+Memoria: Almacena datos e instrucciones.
+Dispositivos de Entrada/Salida: Permiten la interacción con el usuario.
+Buses de Datos: Transportan información entre los componentes.
 
 **Actividad 2**
 - ¿Qué es entonces un programa?

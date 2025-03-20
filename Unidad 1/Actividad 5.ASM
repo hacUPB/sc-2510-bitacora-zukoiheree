@@ -243,45 +243,55 @@ D;JEQ
 
 //18. Utiliza esta herramienta para dibujar un bitmap en la pantalla.
 
-function void draw(int location) {
-	var int memAddress; 
-	let memAddress = 16384+location;
-	// column 0
-	do Memory.poke(memAddress, 2);
-	do Memory.poke(memAddress +32, 519);
-	do Memory.poke(memAddress +64, 258);
-	do Memory.poke(memAddress +96, 14496);
-	do Memory.poke(memAddress +128, 17582);
-	do Memory.poke(memAddress +160, 17585);
-	do Memory.poke(memAddress +192, 16545);
-	do Memory.poke(memAddress +224, 8357);
-	do Memory.poke(memAddress +256, 4258);
-	do Memory.poke(memAddress +288, 2217);
-	do Memory.poke(memAddress +320, 1206);
-	do Memory.poke(memAddress +352, 256);
-	do Memory.poke(memAddress +384, 512);
-	// column 1
-	do Memory.poke(memAddress +1, 16384);
-	do Memory.poke(memAddress +33, 256);
-	do Memory.poke(memAddress +65, -7646);
-	do Memory.poke(memAddress +97, 5185);
-	do Memory.poke(memAddress +129, 5140);
-	do Memory.poke(memAddress +161, 1032);
-	do Memory.poke(memAddress +193, -31744);
-	do Memory.poke(memAddress +225, 17408);
-	do Memory.poke(memAddress +257, 9216);
-	do Memory.poke(memAddress +289, 5120);
-	do Memory.poke(memAddress +321, 1024);
-	do Memory.poke(memAddress +353, 512);
-	do Memory.poke(memAddress +385, 256);
-	// column 2
-	do Memory.poke(memAddress +34, 8);
-	do Memory.poke(memAddress +66, 20);
-	do Memory.poke(memAddress +98, 9);
-	do Memory.poke(memAddress +130, 1);
-	do Memory.poke(memAddress +162, 1);
-	return;
-}
+@16384 
+D=A 
+@12 
+AD=D+M 
+@8 
+D=D+A 
+A=D-A 
+M=D-A 
+D=A 
+@32 
+AD=D+A 
+@16404 
+D=D+A 
+A=D-A 
+M=D-A 
+AD=A+1 
+@2048 
+D=D+A 
+A=D-A 
+M=D-A 
+AD=A+1 
+@2 
+D=D+A 
+A=D-A 
+M=D-A 
+D=A 
+@30 
+AD=D+A 
+@8201 
+D=D+A 
+A=D-A 
+M=D-A 
+AD=A+1 
+@4096 
+D=D+A 
+A=D-A 
+M=D-A 
+AD=A+1 
+@33 
+D=D+A 
+A=D-A 
+M=D-A 
+D=A
+@30 
+AD=D+A 
+@5600 
+D=D+A 
+A=D-A 
+M=D-A 
 
 //19. Analiza el siguiente programa en lenguaje de máquina: ¿que hace este programa?
 
@@ -335,240 +345,9 @@ Si se presiona una tecla, probablemente se altere el comportamiento del contador
 
 //20. Implementa un programa en lenguaje ensamblador que dibuje el bitmap que diseñaste en la pantalla solo si se presiona la tecla “d”.
 
-// Programa en ensamblador de nand2tetris para dibujar un bitmap al presionar 'd'
 
-(draw)
-	// put bitmap location value in R12
-	// put code return address in R13
-	@SCREEN
-	D=A
-	@R12
-	AD=D+M
-	// row 8
-	@8 // A holds val
-	D=D+A // D = addr + val
-	A=D-A // A=addr + val - val = addr
-	M=D-A // RAM[addr] = val
-	// row 9
-	D=A // D holds previous addr
-	@32
-	AD=D+A
-	@16404 // A holds val
-	D=D+A // D = addr + val
-	A=D-A // A=addr + val - val = addr
-	M=D-A // RAM[addr] = val
-	AD=A+1 // D holds addr
-	@2048 // A holds val
-	D=D+A // D = addr + val
-	A=D-A // A=addr + val - val = addr
-	M=D-A // RAM[addr] = val
-	AD=A+1 // D holds addr
-	@2 // A holds val
-	D=D+A // D = addr + val
-	A=D-A // A=addr + val - val = addr
-	M=D-A // RAM[addr] = val
-	// row 10
-	D=A // D holds previous addr
-	@30
-	AD=D+A
-	@8201 // A holds val
-	D=D+A // D = addr + val
-	A=D-A // A=addr + val - val = addr
-	M=D-A // RAM[addr] = val
-	AD=A+1 // D holds addr
-	@4096 // A holds val
-	D=D+A // D = addr + val
-	A=D-A // A=addr + val - val = addr
-	M=D-A // RAM[addr] = val
-	AD=A+1 // D holds addr
-	@33 // A holds val
-	D=D+A // D = addr + val
-	A=D-A // A=addr + val - val = addr
-	M=D-A // RAM[addr] = val
-	// row 11
-	D=A // D holds previous addr
-	@30
-	AD=D+A
-	@5600 // A holds val
-	D=D+A // D = addr + val
-	A=D-A // A=addr + val - val = addr
-	M=D-A // RAM[addr] = val
-	AD=A+1 // D holds addr
-	@8736 // A holds val
-	D=D+A // D = addr + val
-	A=D-A // A=addr + val - val = addr
-	M=D-A // RAM[addr] = val
-	AD=A+1 // D holds addr
-	@80 // A holds val
-	D=D+A // D = addr + val
-	A=D-A // A=addr + val - val = addr
-	M=D-A // RAM[addr] = val
-	// row 12
-	D=A // D holds previous addr
-	@30
-	AD=D+A
-	@27120 // A holds val
-	D=D+A // D = addr + val
-	A=D-A // A=addr + val - val = addr
-	M=A-D // RAM[addr]=-val
-	AD=A+1 // D holds addr
-	@9235 // A holds val
-	D=D+A // D = addr + val
-	A=D-A // A=addr + val - val = addr
-	M=D-A // RAM[addr] = val
-	AD=A+1 // D holds addr
-	@39 // A holds val
-	D=D+A // D = addr + val
-	A=D-A // A=addr + val - val = addr
-	M=D-A // RAM[addr] = val
-	// row 13
-	D=A // D holds previous addr
-	@30
-	AD=D+A
-	@21520 // A holds val
-	D=D+A // D = addr + val
-	A=D-A // A=addr + val - val = addr
-	M=D-A // RAM[addr] = val
-	AD=A+1 // D holds addr
-	@24252 // A holds val
-	D=D+A // D = addr + val
-	A=D-A // A=addr + val - val = addr
-	M=A-D // RAM[addr]=-val
-	AD=A+1 // D holds addr
-	@8 // A holds val
-	D=D+A // D = addr + val
-	A=D-A // A=addr + val - val = addr
-	M=D-A // RAM[addr] = val
-	// row 14
-	D=A // D holds previous addr
-	@30
-	AD=D+A
-	@21520 // A holds val
-	D=D+A // D = addr + val
-	A=D-A // A=addr + val - val = addr
-	M=D-A // RAM[addr] = val
-	AD=A+1 // D holds addr
-	@24444 // A holds val
-	D=D+A // D = addr + val
-	A=D-A // A=addr + val - val = addr
-	M=A-D // RAM[addr]=-val
-	AD=A+1 // D holds addr
-	@8 // A holds val
-	D=D+A // D = addr + val
-	A=D-A // A=addr + val - val = addr
-	M=D-A // RAM[addr] = val
-	// row 15
-	D=A // D holds previous addr
-	@30
-	AD=D+A
-	@27504 // A holds val
-	D=D+A // D = addr + val
-	A=D-A // A=addr + val - val = addr
-	M=A-D // RAM[addr]=-val
-	AD=A+1 // D holds addr
-	@8196 // A holds val
-	D=D+A // D = addr + val
-	A=D-A // A=addr + val - val = addr
-	M=D-A // RAM[addr] = val
-	AD=A+1 // D holds addr
-	@9 // A holds val
-	D=D+A // D = addr + val
-	A=D-A // A=addr + val - val = addr
-	M=D-A // RAM[addr] = val
-	// row 16
-	D=A // D holds previous addr
-	@30
-	AD=D+A
-	@5216 // A holds val
-	D=D+A // D = addr + val
-	A=D-A // A=addr + val - val = addr
-	M=D-A // RAM[addr] = val
-	AD=A+1 // D holds addr
-	@8194 // A holds val
-	D=D+A // D = addr + val
-	A=D-A // A=addr + val - val = addr
-	M=D-A // RAM[addr] = val
-	AD=A+1 // D holds addr
-	@4 // A holds val
-	D=D+A // D = addr + val
-	A=D-A // A=addr + val - val = addr
-	M=D-A // RAM[addr] = val
-	// row 17
-	D=A // D holds previous addr
-	@30
-	AD=D+A
-	@5152 // A holds val
-	D=D+A // D = addr + val
-	A=D-A // A=addr + val - val = addr
-	M=D-A // RAM[addr] = val
-	AD=A+1 // D holds addr
-	@8193 // A holds val
-	D=D+A // D = addr + val
-	A=D-A // A=addr + val - val = addr
-	M=D-A // RAM[addr] = val
-	AD=A+1 // D holds addr
-	@2 // A holds val
-	D=D+A // D = addr + val
-	A=D-A // A=addr + val - val = addr
-	M=D-A // RAM[addr] = val
-	// row 18
-	D=A // D holds previous addr
-	@30
-	AD=D+A
-	@27504 // A holds val
-	D=D+A // D = addr + val
-	A=D-A // A=addr + val - val = addr
-	M=A-D // RAM[addr]=-val
-	AD=A+1 // D holds addr
-	@8192 // A holds val
-	D=D+A // D = addr + val
-	A=D-A // A=addr + val - val = addr
-	M=D-A // RAM[addr] = val
-	AD=A+1 // D holds addr
-	M=1
-	// row 19
-	D=A // D holds previous addr
-	@30
-	AD=D+A
-	@21648 // A holds val
-	D=D+A // D = addr + val
-	A=D-A // A=addr + val - val = addr
-	M=D-A // RAM[addr] = val
-	AD=A+1 // D holds addr
-	@24576 // A holds val
-	D=D+A // D = addr + val
-	A=D-A // A=addr + val - val = addr
-	M=A-D // RAM[addr]=-val
-	// row 20
-	D=A // D holds previous addr
-	@31
-	AD=D+A
-	@9056 // A holds val
-	D=D+A // D = addr + val
-	A=D-A // A=addr + val - val = addr
-	M=D-A // RAM[addr] = val
-	AD=A+1 // D holds addr
-	@4096 // A holds val
-	D=D+A // D = addr + val
-	A=D-A // A=addr + val - val = addr
-	M=D-A // RAM[addr] = val
-	// row 21
-	D=A // D holds previous addr
-	@31
-	AD=D+A
-	@16384 // A holds val
-	D=D+A // D = addr + val
-	A=D-A // A=addr + val - val = addr
-	M=D-A // RAM[addr] = val
-	AD=A+1 // D holds addr
-	@2048 // A holds val
-	D=D+A // D = addr + val
-	A=D-A // A=addr + val - val = addr
-	M=D-A // RAM[addr] = val
-	// return
-	@R13
-	A=M
-	D;JMP
+
+
 
 
 

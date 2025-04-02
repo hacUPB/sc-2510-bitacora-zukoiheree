@@ -383,6 +383,92 @@ Si se presiona una tecla, probablemente se altere el comportamiento del contador
 
 //20. Implementa un programa en lenguaje ensamblador que dibuje el bitmap que diseñaste en la pantalla solo si se presiona la tecla “d”.
 
+// Inicialización
+@0
+D=A
+@tecla_presionada
+M=D // Variable para indicar si se presionó la tecla "d"
+
+// Bucle principal para verificar tecla
+(LOOP_TECLA)
+    @24576 // Dirección del teclado
+    D=M
+    @100 // Valor ASCII de "d"
+    D=D-A
+    @DIBUJAR // Si se presionó "d", salta a dibujar
+    D;JEQ
+
+    @LOOP_TECLA // Si no se presionó "d", vuelve a verificar
+    0;JMP
+
+// Rutina para dibujar el bitmap
+(DIBUJAR)
+    // Asumiendo que el bitmap está diseñado en las direcciones
+    // que se modifican a continuación. Ajusta según sea necesario.
+    @16384 // Dirección de la pantalla
+    D=A
+    @12
+    AD=D+M
+    @8
+    D=D+A
+    A=D-A
+    M=D-A
+
+    D=A
+    @32
+    AD=D+A
+    @16404
+    D=D+A
+    A=D-A
+    M=D-A
+
+    AD=A+1
+    @2048
+    D=D+A
+    A=D-A
+    M=D-A
+
+    AD=A+1
+    @2
+    D=D+A
+    A=D-A
+    M=D-A
+
+    D=A
+    @30
+    AD=D+A
+    @8201
+    D=D+A
+    A=D-A
+    M=D-A
+
+    AD=A+1
+    @4096
+    D=D+A
+    A=D-A
+    M=D-A
+
+    AD=A+1
+    @33
+    D=D+A
+    A=D-A
+    M=D-A
+
+    D=A
+    @30
+    AD=D+A
+    @5600
+    D=D+A
+    A=D-A
+    M=D-A
+
+    @LOOP_TECLA // Vuelve al bucle principal
+    0;JMP
+
+//Bucle de verificación de tecla: El programa permanece en un bucle verificando si se presionó la tecla "d". Si se presiona, salta a la rutina de dibujado.
+Rutina de dibujado: Esta parte del programa es donde se escriben los valores en la memoria de la pantalla para dibujar el bitmap. Las direcciones y valores utilizados deben ajustarse según el diseño específico del bitmap.
+Regreso al bucle principal: Después de dibujar, el programa regresa al bucle principal para esperar la próxima interacción del usuario.//
+
 
 
 

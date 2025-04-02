@@ -1,120 +1,83 @@
-// Dirección base de la pantalla
-@SCREEN
+// Inicialización
+@0
 D=A
-@16384
-M=D
+@tecla_presionada
+M=D // Variable para indicar si se presionó la tecla "d"
 
-// Bucle principal
-(LOOP)
-    // Leer entrada del teclado
-    @24576
+// Bucle principal para verificar tecla
+(LOOP_TECLA)
+    @24576 // Dirección del teclado
     D=M
-    @CLEAR
-    D;JEQ    // Si no hay tecla presionada, borrar pantalla
-
-    // Comparar con la tecla 'd' (ASCII 68)
-    @68
+    @100 // Valor ASCII de "d"
     D=D-A
-    @DRAW
-    D;JEQ    // Si es 'd', dibujar bitmap
+    @DIBUJAR // Si se presionó "d", salta a dibujar
+    D;JEQ
 
-    // Si no es 'd', volver al loop
-    @LOOP
+    @LOOP_TECLA // Si no se presionó "d", vuelve a verificar
     0;JMP
 
-// Rutina para borrar pantalla
-(CLEAR)
-    @16384
+// Rutina para dibujar el bitmap
+(DIBUJAR)
+    // Asumiendo que el bitmap está diseñado en las direcciones
+    // que se modifican a continuación. Ajusta según sea necesario.
+    @16384 // Dirección de la pantalla
     D=A
-    @i
-    M=D  // i = 16384 (inicio de la pantalla)
-
-(CLEAR_LOOP)
-    @i
-    D=M
-    @24576
-    D=D-A
-    @LOOP
-    D;JGE  // Si i >= 24576, volver al loop
-
-    @i
-    A=M
-    M=0  // Poner el pixel en negro
-
-    @i
-    M=M+1  // i++
-    @CLEAR_LOOP
-    0;JMP  // Repetir
-
-// Rutina para dibujar bitmap
-(DRAW)
-    @16384
-    D=A
-
-    // Primera fila
     @12
-    AD=D+A
+    AD=D+M
     @8
     D=D+A
-    A=D
-    M=-1  // Dibujar píxel (todos los bits en 1)
+    A=D-A
+    M=D-A
 
-    // Segunda fila
     D=A
     @32
     AD=D+A
     @16404
     D=D+A
-    A=D
-    M=-1
+    A=D-A
+    M=D-A
 
-    // Tercera fila
     AD=A+1
     @2048
     D=D+A
-    A=D
-    M=-1
+    A=D-A
+    M=D-A
 
-    // Cuarta fila
     AD=A+1
     @2
     D=D+A
-    A=D
-    M=-1
+    A=D-A
+    M=D-A
 
-    // Quinta fila
     D=A
     @30
     AD=D+A
     @8201
     D=D+A
-    A=D
-    M=-1
+    A=D-A
+    M=D-A
 
-    // Sexta fila
     AD=A+1
     @4096
     D=D+A
-    A=D
-    M=-1
+    A=D-A
+    M=D-A
 
-    // Séptima fila
     AD=A+1
     @33
     D=D+A
-    A=D
-    M=-1
+    A=D-A
+    M=D-A
 
-    // Octava fila
     D=A
     @30
     AD=D+A
     @5600
     D=D+A
-    A=D
-    M=-1
+    A=D-A
+    M=D-A
 
-    // Volver al bucle principal
-    @LOOP
+    @LOOP_TECLA // Vuelve al bucle principal
     0;JMP
+
 

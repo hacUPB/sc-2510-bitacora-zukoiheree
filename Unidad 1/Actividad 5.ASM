@@ -105,8 +105,7 @@ M=M-1
 (CONT)
 
 //- Decrementa la variable i desde 1000 hasta 0, y cuando llega a 0, salta a CONT para acabar el bucle.
-//- La variable i está almacenada en la RAM. La dirección exacta no se especifica, pero probablemente sea a partir de la dirección 16 en adelante.
-//- @0, @1, @2 y @3
+//- La variable i está almacenada en la RAM, lo que significa que se encuentra en la RAM[16]
 //- La primera instrucción es @1000. Esta se ejecuta desde la ROM en la dirección 0.
 //- Son etiquetas que marcan puntos específicos en el código. LOOP es el inicio del ciclo, y CONT es el punto al que se salta cuando i == 0.
 //- i es una variable almacenada en memoria, mientras que CONT es una etiqueta que define una ubicación en el código.
@@ -188,47 +187,50 @@ for (int j = 0; j < 10; j++) {
     sum = sum + arr[j];
 }
 
-// Inicialización
-@ARR      
-D=A        // Dirección base del array
-@J        
-M=0        // j = 0
-@SUM      
-M=0        // sum = 0
-(LOOP_SUM)
-@J
+@arr  // Dirección base
+D=A
+
+@sum  // Inicializar sum
+M=0
+@j  // j=0
+M=0
+
+(LOOP)
+@j
 D=M
 @10
 D=D-A
-@END_SUM
-D;JGE     // Si j >= 10, salir del bucle
-@ARR
-D=A
-@J
-A=D+M     // Acceder a arr[j]
-D=M       // D = arr[j]
-@SUM
-M=M+D     // sum = sum + arr[j]
-@J
-M=M+1     // j++
-@LOOP_SUM
-0;JMP     // Repetir el bucle
-(END_SUM)
-@END_SUM
-0;JMP     // Bucle infinito
+@END
+D;JGE
 
-// Variables
-(ARR)   // Dirección base del array
-@1000   
-D=A
-@ARR
-M=D
-(SUM)   // Variable sum
-@0
-M=0
-(J)     // Índice j
-@0
-M=0
+@arr
+A=D+M
+D=M
+@sum
+M=D+M
+
+@j
+M=M+1
+
+@LOOP
+0;JMP
+
+(END)
+
+//¿Qué hace este programa?
+Declara un arreglo de 10 enteros (arr), inicializa sum en 0, recorre el arreglo sumando cada elemento a sum.
+
+//¿Cuál es la dirección base de arr en la memoria RAM?
+Almacena variables en RAM a partir de la dirección 16.
+arr es un arreglo, por lo que su primera posición en RAM es RAM[16].
+EJ: arr[0] en RAM[16], arr[1] en RAM[17]...
+
+//¿Cuál es la dirección base de sum en la memoria RAM y por qué?
+como arr[9] (que termina en RAM[25]), la siguiente variable es sum, así que:
+sum se almacena en RAM[26]. 
+
+//¿Cuál es la dirección base de j en la memoria RAM y por qué?
+j es la última variable en declararse y se almacena después de sum, en RAM[27].
 
 
 //17. Implementa en lenguaje ensamblador: if ( (D - 7) == 0) goto a la instrucción en ROM[69]
@@ -294,51 +296,87 @@ A=D-A
 M=D-A 
 
 //19. Analiza el siguiente programa en lenguaje de máquina: ¿que hace este programa?
+0100000000000000
+1110110000010000
+0000000000010000
+1110001100001000
+0110000000000000
+1111110000010000
+0000000000010011
+1110001100000101
+0000000000010000
+1111110000010000
+0100000000000000
+1110010011010000
+0000000000000100
+1110001100000110
+0000000000010000
+1111110010101000
+1110101010001000
+0000000000000100
+1110101010000111
+0000000000010000
+1111110000010000
+0110000000000000
+1110010011010000
+0000000000000100
+1110001100000011
+0000000000010000
+1111110000100000
+1110111010001000
+0000000000010000
+1111110111001000
+0000000000000100
+1110101010000111
 
-@16384        // 0100000000000000  
-D=A           // 1110110000010000  
-@16           // 0000000000010000  
-M=D           // 1110001100001000 
+@16384   // Dirección de pantalla
+D=A      // Asigna el valor 16384 al registro D.
 
-@24576        // 0110000000000000  
-D=M           // 1111110000010000  
-@19           // 0000000000010011  
-D;JEQ         // 1110001100000101  
+@16     
+M=D      // Guarda el valor de D (16384) en la dirección de memoria RAM[16].  
 
-@16           // 0000000000010000  
-D=M           // 1111110000010000  
-@16384        // 0100000000000000  
-M=D           // 1110010011010000  
+@24576   // KBD = Dirección de teclado
+D=M      // Carga en D el valor almacenado en la dirección RAM[24576] (que es la dirección del teclado en Hack).  
 
-@4            // 0000000000000100  
-D;JLT         // 1110001100000110  
+@19  
+D;JNE    // Si D no es igual a 0 (es decir, si se está presionando una tecla), salta a la línea 19.  
 
-@16           // 0000000000010000  
-M=M+1         // 1111110010101000  
+@16  
+D=M      // Carga en D el valor de la RAM[16] (que originalmente guardaba 16384).  
 
-D=0           // 1110101010001000  
-@4            // 0000000000000100 
-D;JGT         // 1110101010000111  
+@16384  
+D=D-A    // Resta D - 16384. Si D es menor o igual a 0, significa que la posición ya está en el límite superior.  
 
-@16           // 0000000000010000  
-D=M           // 1111110000010000  
+@4  
+D;JLE    // Si el resultado de la resta es menor o igual a 0, salta a la línea 4 (probablemente para reiniciar el cursor).  
 
-@24576        // 0110000000000000  
-M=D           // 1110010011010000  
+@16  
+AM=M-1   // Resta 1 al valor almacenado en RAM[16] y actualiza tanto A como M.  
 
-@4            // 0000000000000100  
-D;JLE         // 1110001100000011 
+M=0      // Escribe 0 en la posición de memoria RAM[16].  
 
-@16           // 0000000000010000  
-M=M-1         // 1111110000100000 
+@32  
+0;JMP    // Salta incondicionalmente a la línea 32.  
 
-D=M           // 1110111010001000  
+@16  
+D=M      // Carga en D el valor de RAM[16].  
 
-@16           // 0000000000010000  
-M=M-1         // 1111110111001000  
+@24576  
+D=D-A    // Resta el valor de la dirección del teclado (24576) al contenido de RAM[16].  
 
-@4            // 0000000000000100  
-D;JGT         // 1110101010000111  
+@4  
+D;JGE    // Si D es mayor o igual a 0, salta a la línea 4 (probablemente para manejar otro caso de límite).  
+
+@16  
+A=M      // Usa el valor de RAM[16] como dirección de memoria y lo almacena en A.  
+
+M=-1     // Escribe -1 en la dirección de memoria determinada por RAM[16]. Esto probablemente enciende un píxel en la pantalla.  
+
+@16  
+#ERR      // Parece un comentario o marcador de error.  
+
+@4  
+0;JMP    // Salta incondicionalmente a la línea 4, lo que podría ser para reiniciar el proceso o manejar una condición de error.
 
 // Este programa parece implementar un contador basado en la entrada del teclado, actualizando la pantalla en consecuencia. 
 Si se presiona una tecla, probablemente se altere el comportamiento del contador.//

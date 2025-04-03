@@ -1,18 +1,36 @@
-// Bucle principal para verificar si se presiona una tecla
+@SCREEN   // Dirección base de la pantalla
+D=A
+@addr     // Guarda en una variable temporal
+M=D
+
 (LOOP)
-    @24576       // Dirección del teclado
-    D=M          // Leer el valor del teclado
-    @ENCENDER    // Si se presionó una tecla (D != 0), salta a ENCENDER
-    D;JNE
+@KBD      // Lee el teclado
+D=M
+@DRAW
+D;JNE     // Si alguna tecla está presionada, ir a DRAW
+@CLEAR
+0;JMP     // Si no, ir a CLEAR
 
-    @LOOP        // Si no se presionó ninguna tecla, sigue verificando
-    0;JMP
+(DRAW)
+@addr
+D=M
+@32
+D=D+A     // Avanza una fila en la pantalla
+@addr
+M=D
+A=D
+M=-1      // Pinta 16 píxeles en negro
+@LOOP
+0;JMP     // Repetir
 
-// Rutina para encender un píxel en la pantalla
-(ENCENDER)
-    @16384       // Dirección inicial de la pantalla (primer píxel)
-    M=-1         // Encender el píxel (escribir -1 en la dirección de memoria)
-
-    @LOOP        // Regresa al bucle principal para seguir verificando teclas
-    0;JMP
-
+(CLEAR)
+@addr
+D=M
+@32
+D=D+A
+@addr
+M=D
+A=D
+M=0       // Borra 16 píxeles
+@LOOP
+0;JMP

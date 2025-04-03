@@ -1,41 +1,17 @@
-// Inicialización
-@0
-D=A
-@tecla_presionada
-M=D // Variable para indicar si se presionó una tecla
-
-// Bucle principal para verificar tecla
-(LOOP_TECLA)
-    @24576 // Dirección del teclado
-    D=M
-    @0
-    D=D-A
-    @MOSTRAR_MENSAJE // Si se presionó una tecla, salta a mostrar mensaje
+// Bucle principal para verificar si se presiona una tecla
+(LOOP)
+    @24576       // Dirección del teclado
+    D=M          // Leer el valor del teclado
+    @ENCENDER    // Si se presionó una tecla (D != 0), salta a ENCENDER
     D;JNE
 
-    @LOOP_TECLA // Si no se presionó una tecla, vuelve a verificar
+    @LOOP        // Si no se presionó ninguna tecla, sigue verificando
     0;JMP
 
-// Rutina para mostrar un mensaje en la pantalla
-(MOSTRAR_MENSAJE)
-    @16384 // Dirección de la pantalla
-    D=A
-    @0
-    M=D // Inicializa el puntero de pantalla
+// Rutina para encender un píxel en la pantalla
+(ENCENDER)
+    @16384       // Dirección inicial de la pantalla (primer píxel)
+    M=-1         // Encender el píxel (escribir -1 en la dirección de memoria)
 
-    // Escribe el mensaje "Hola" en la pantalla
-    @72 // Código ASCII de 'H'
-    M=D
-    @16385
-    @111 // Código ASCII de 'o'
-    M=D
-    @16386
-    @108 // Código ASCII de 'l'
-    M=D
-    @16387
-    @97 // Código ASCII de 'a'
-    M=D
-
-    @LOOP_TECLA // Vuelve al bucle principal
+    @LOOP        // Regresa al bucle principal para seguir verificando teclas
     0;JMP
-

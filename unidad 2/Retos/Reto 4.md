@@ -18,9 +18,6 @@ p = &a;
 ```
 ---
 ```cpp
-#include <iostream>
-
-int main() {
     int a = 10;  // Declaración e inicialización de la variable a
     int *p;      // Declaración del puntero p
     p = &a;      // p almacena la dirección de a

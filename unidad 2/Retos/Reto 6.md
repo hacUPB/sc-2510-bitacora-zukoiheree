@@ -9,6 +9,7 @@ Ahora vas a usar un puntero para leer la posición de memoria a la que este apun
     b = *p;
  ```
 En este caso `b = *p;` hace que el valor de `b` cambie de 5 a 10 porque `p` apunta a la la variable `a` y con `*p` a la derecha del igual estás leyendo el contenido de la variable apuntada.
+
 ---
 `int a = 10;`   Declaras 'a' con valor 10
 `int b = 5;`    Declaras 'b' con valor 5

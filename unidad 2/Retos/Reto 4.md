@@ -25,7 +25,6 @@ p = &a;
 
     std::cout << "Valor de a: " << a << std::endl; // Debería imprimir 20
     return 0;
-}
 ```
 - Se declara una variable entera a y se le asigna el valor 10.
 

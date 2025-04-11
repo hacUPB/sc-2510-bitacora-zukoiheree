@@ -1,9 +1,5 @@
 Actividad 2
 ---
-Aquí tienes las respuestas reflexivas a cada una de las preguntas, pensadas para que puedas usarlas directamente en tu bitácora o como base para tus propios apuntes:
-
----
-
 ### 1. ¿Cómo se gestiona la memoria en una implementación manual de un stack en C++?
 
 En una implementación manual de un stack, la memoria para cada nodo se reserva dinámicamente con `new` al hacer `push`, y se libera con `delete` al hacer `pop` o `clear`. Esto permite que el stack crezca o disminuya dinámicamente en tiempo de ejecución sin un límite fijo.

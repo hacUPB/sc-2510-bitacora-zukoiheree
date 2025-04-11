@@ -49,7 +49,7 @@ Un stack implementa una política **LIFO** (Last In, First Out), lo que signific
 
 ### 5. ¿Cómo podrías modificar el stack para almacenar tipos de datos más complejos?
 
-Podrías cambiar la clase `Node` para que contenga, por ejemplo, una estructura o clase que tenga múltiples atributos:
+Cambiamos la clase `Node` para que contenga, por ejemplo, una estructura o clase que tenga múltiples atributos:
 
 ```cpp
 class Particle {
@@ -68,8 +68,4 @@ public:
 
 **Consideraciones de memoria:**
 - Si los objetos complejos contienen recursos dinámicos (como punteros o archivos), deberás asegurarte de liberar esos recursos en el destructor del nodo o usar **smart pointers** como `std::shared_ptr`.
-- Usar clases con constructores y destructores bien definidos ayuda a prevenir errores de acceso a memoria no válida.
-
----
-
-¿Quieres que te ayude con las respuestas para las preguntas de reflexión de la **queue** también?
+- Usar clases con constructores y destructores bien definidos ayuda a prevenir errores de acceso a memoria no válida. 

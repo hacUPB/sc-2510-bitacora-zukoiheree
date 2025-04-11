@@ -189,7 +189,3 @@ Usando el depurador de **Visual Studio**, puedes hacer lo siguiente:
 - El **vector en sí mismo** vive en el *stack*, lo que hace su acceso muy rápido.
 - La selección de esferas mediante el mouse se basa en cálculos de intersección, pero no requiere crear objetos nuevos, lo cual optimiza aún más el uso de memoria.
 - Visual Studio permite verificar la ubicación exacta de los datos en memoria para confirmar que esta arquitectura está funcionando correctamente.
-
----
-
-¿Quieres que prepare esto también como un PDF para incluirlo en tu entrega o agregarle capturas del depurador de Visual Studio?

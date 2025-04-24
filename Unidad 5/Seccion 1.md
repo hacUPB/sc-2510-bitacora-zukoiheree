@@ -203,10 +203,6 @@ public:
     }
 };
 ```
-
-Vamos con las respuestas y el análisis que necesitas:
-
-
 ### - ¿Cómo afectan los datos estáticos al tamaño de la instancia?
 
 **No lo afectan.**  

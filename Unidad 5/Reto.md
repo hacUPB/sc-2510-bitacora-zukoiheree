@@ -1,6 +1,7 @@
 Reto
 ---
 https://drive.google.com/file/d/1rzIn3-psAoBjDiN5jUxqJ_R_ZD-rz7BA/view?usp=sharing
+
 Este programa, desarrollado con C++ y openFrameworks, crea un sistema visual dinámico basado en partículas que se comportan de diferentes maneras. 
 Al iniciar, se generan 100 partículas, de dos tipos:
 

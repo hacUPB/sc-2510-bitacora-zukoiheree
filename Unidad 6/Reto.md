@@ -175,18 +175,6 @@ void ofApp::draw() {
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key) {
-	if (key == 'a')
-		notify("alert");
-	else if (key == 'h')
-		notify("hide");
-	else if (key == 'n')
-		notify("normal");
-	else if (key == 'd')
-		notify("dream");
-}
-
-//--------------------------------------------------------------
-void ofApp::keyPressed(int key) {
 	switch (key) {
 	case 'a':
 		notify("alert");

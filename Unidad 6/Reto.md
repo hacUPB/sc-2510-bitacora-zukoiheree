@@ -188,18 +188,7 @@ void ofApp::keyPressed(int key) {
 	case 'd':
 		notify("dream");
 		break;
-	case 's':
-		notify("stop");
-		break;
-	case 'r':
-		notify("repel");
-		break;
-	case 'b':
-		notify("bounce");
-		break;
-	case 'f':
-		notify("flicker");
-		break;
+	
 	}
 }
 ```

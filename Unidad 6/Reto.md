@@ -1,24 +1,24 @@
 **Reto**
 ---
+https://www.canva.com/design/DAGm5oOBCRI/s4ZEdexb9UrgBjKAhCAzpg/edit?utm_content=DAGm5oOBCRI&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton
 ### `ofapp.h`
 ```cpp
-// ofApp.h
 #pragma once
-
 #include "ofMain.h"
 #include <string>
 #include <vector>
 
-// ---------------- Observer Pattern ----------------
+// -------- Observer --------
 class Observer {
 public:
 	virtual void onNotify(const std::string & event) = 0;
 };
 
+// -------- Subject --------
 class Subject {
 public:
-	void addObserver(Observer * observer);
-	void removeObserver(Observer * observer);
+	void addObserver(Observer * o);
+	void removeObserver(Observer * o);
 
 protected:
 	void notify(const std::string & event);
@@ -27,83 +27,64 @@ private:
 	std::vector<Observer *> observers;
 };
 
-// ---------------- State Pattern ----------------
-class Creature; // forward declaration
+// Adelanto
+class Firefly;
 
+// -------- State --------
 class State {
 public:
-	virtual void update(Creature * creature) = 0;
-	virtual void onEnter(Creature * creature) { }
-	virtual void onExit(Creature * creature) { }
-	virtual ~State() = default;
+	virtual void update(Firefly * firefly) = 0;
+	virtual void onEnter(Firefly * firefly) { };
+	virtual void onExit(Firefly * firefly) { };
+	virtual ~State() { }
 };
 
-// ---------------- Creature Base ----------------
-class Creature : public Observer {
+// -------- Firefly --------
+class Firefly : public Observer {
 public:
-	Creature();
-	virtual ~Creature();
-
-	virtual void update();
-	virtual void draw();
-	void setState(State * newState);
+	Firefly();
+	void update();
+	void draw();
 	void onNotify(const std::string & event) override;
+	void setState(State * newState);
+	ofVec2f getPosition();
+	void setPosition(const ofVec2f & newPos); 
 
+private:
 	ofVec2f position;
 	ofVec2f velocity;
-	float size;
+	State * currentState;
 	ofColor color;
-
-protected:
-	State * state;
+	float radius;
+	float brightness;
 };
 
-// ---------------- Concrete Creatures ----------------
-class Insect : public Creature {
+
+
+// -------- States --------
+class NormalState : public State {
 public:
-	void draw() override;
+	void update(Firefly * firefly) override;
 };
 
-class Fish : public Creature {
+class GlowState : public State {
 public:
-	void draw() override;
+	void onEnter(Firefly * firefly) override;
+	void update(Firefly * firefly) override;
 };
 
-class Bird : public Creature {
+class StopState : public State {
 public:
-	void draw() override;
+	void update(Firefly * firefly) override;
 };
 
-// ---------------- Concrete States ----------------
-class ActiveState : public State {
+// -------- Factory --------
+class FireflyFactory {
 public:
-	void update(Creature * creature) override;
+	static Firefly * createFirefly();
 };
 
-class HiddenState : public State {
-public:
-	void update(Creature * creature) override;
-	void onEnter(Creature * creature) override;
-};
-
-class AlertState : public State {
-public:
-	void update(Creature * creature) override;
-};
-
-class DreamingState : public State {
-public:
-	void update(Creature * creature) override;
-	void onEnter(Creature * creature) override;
-};
-
-// ---------------- Factory Method ----------------
-class CreatureFactory {
-public:
-	static Creature * createCreature(const std::string & type);
-};
-
-// ---------------- App ----------------
+// -------- App --------
 class ofApp : public ofBaseApp, public Subject {
 public:
 	void setup();
@@ -112,84 +93,140 @@ public:
 	void keyPressed(int key);
 
 private:
-	std::vector<Creature *> creatures;
+	std::vector<Firefly *> fireflies;
 };
 
-//---------------------------------
-class Subject {
-public:
-	void addObserver(Observer * observer) {
-		observers.push_back(observer);
-	}
-
-	void notify(const std::string & event) {
-		for (auto & obs : observers) {
-			obs->onNotify(event);
-		}
-	}
-
-protected: 
-	std::vector<Observer *> observers;
-};
 ```
 
 ### `ofapp.cpp`
 ```cpp
+
 #include "ofApp.h"
 
-//--------------------------------------------------------------
 void ofApp::setup() {
-	ofBackground(10);
-
-	for (int i = 0; i < 20; i++) {
-		Creature * c = CreatureFactory::createCreature("insect");
-		creatures.push_back(c);
-		addObserver(c);
-	}
-	for (int i = 0; i < 15; i++) {
-		Creature * c = CreatureFactory::createCreature("fish");
-		creatures.push_back(c);
-		addObserver(c);
-	}
-	for (int i = 0; i < 10; i++) {
-		Creature * c = CreatureFactory::createCreature("bird");
-		creatures.push_back(c);
-		addObserver(c);
+	ofBackground(0);
+	for (int i = 0; i < 5; ++i) {
+		Firefly * f = FireflyFactory::createFirefly();
+		fireflies.push_back(f);
+		addObserver(f);
 	}
 }
 
-//--------------------------------------------------------------
 void ofApp::update() {
-	for (auto & c : creatures) {
-		c->update();
+	for (auto * f : fireflies) {
+		f->update();
 	}
 }
 
-//--------------------------------------------------------------
 void ofApp::draw() {
-	for (auto & c : creatures) {
-		c->draw();
+	for (auto * f : fireflies) {
+		f->draw();
 	}
-	ofDrawBitmapStringHighlight("Teclas: [a]=alert, [h]=hide, [n]=normal, [d]=dream", 10, 20);
+
+	ofSetColor(255);
+	ofDrawBitmapString("Teclas: [n] normal, [g] glow, [s] stop, [a] agregar luciérnaga", 10, 20);
 }
 
-//--------------------------------------------------------------
 void ofApp::keyPressed(int key) {
-	switch (key) {
-	case 'a':
-		notify("alert");
-		break;
-	case 'h':
-		notify("hide");
-		break;
-	case 'n':
+	if (key == 'n')
 		notify("normal");
-		break;
-	case 'd':
-		notify("dream");
-		break;
-	
+	else if (key == 'g')
+		notify("glow");
+	else if (key == 's')
+		notify("stop");
+	else if (key == 'a') {
+		Firefly * f = FireflyFactory::createFirefly();
+		fireflies.push_back(f);
+		addObserver(f);
 	}
 }
+
+// -------- Subject -----------
+void Subject::addObserver(Observer * o) {
+	observers.push_back(o);
+}
+
+void Subject::removeObserver(Observer * o) {
+	observers.erase(std::remove(observers.begin(), observers.end(), o), observers.end());
+}
+
+void Subject::notify(const std::string & event) {
+	for (auto & o : observers) {
+		o->onNotify(event);
+	}
+}
+
+// -------- Firefly ----------
+Firefly::Firefly() {
+	position.set(ofRandomWidth(), ofRandomHeight());
+	velocity.set(ofRandom(-2, 2), ofRandom(-2, 2));
+	color = ofColor::yellow;
+	radius = 5;
+	brightness = 255;
+	currentState = new NormalState();
+}
+
+void Firefly::update() {
+	if (currentState) currentState->update(this);
+}
+
+void Firefly::draw() {
+	ofSetColor(color, brightness);
+	ofDrawCircle(position, radius);
+}
+
+void Firefly::onNotify(const std::string & event) {
+	if (event == "normal")
+		setState(new NormalState());
+	else if (event == "glow")
+		setState(new GlowState());
+	else if (event == "stop")
+		setState(new StopState());
+}
+
+void Firefly::setState(State * newState) {
+	if (currentState) {
+		currentState->onExit(this);
+		delete currentState;
+	}
+	currentState = newState;
+	if (currentState) currentState->onEnter(this);
+}
+
+void Firefly::setPosition(const ofVec2f & newPos) {
+	position = newPos;
+}
+
+
+ofVec2f Firefly::getPosition() {
+	return position;
+}
+
+
+// -------- States --------
+
+void NormalState::update(Firefly * firefly) {
+	ofVec2f pos = firefly->getPosition(); // Copia válida
+	pos += ofVec2f(ofRandom(-1, 1), ofRandom(-1, 1)); // Movimiento aleatorio
+	firefly->setPosition(pos); // Actualiza la posición real
+}
+
+void GlowState::onEnter(Firefly * firefly) {
+	firefly->setState(new GlowState());
+}
+
+void GlowState::update(Firefly * firefly) {
+	firefly->draw();
+}
+
+void StopState::update(Firefly * firefly) {
+	// No se mueve
+}
+
+// -------- Factory ----------
+Firefly * FireflyFactory::createFirefly() {
+	return new Firefly();
+}
+
 ```
 

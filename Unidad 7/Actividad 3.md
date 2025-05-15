@@ -19,6 +19,22 @@ Para cambiar el color de cada píxel de la pantalla, puedes modificar el fragmen
 
 #### Modificación en `shader.frag`:
 
+**`shadersGL2`**
+```glsl
+uniform float time;
+
+void main()
+{
+    float red = 0.5 + 0.5 * sin(time);
+    float green = 0.5 + 0.5 * cos(time);
+    float blue = 0.5 + 0.5 * sin(time + 3.14159);
+
+    gl_FragColor = vec4(red, green, blue, 1.0);
+}
+
+```
+
+**`shadersGL3`**
 ```glsl
 uniform float time;
 
@@ -26,7 +42,6 @@ out vec4 outputColor;
 
 void main()
 {
-    // Modificación del color en función del tiempo.
     float red = 0.5 + 0.5 * sin(time);
     float green = 0.5 + 0.5 * cos(time);
     float blue = 0.5 + 0.5 * sin(time + 3.14159);
@@ -34,6 +49,7 @@ void main()
     outputColor = vec4(red, green, blue, 1.0);
 }
 ```
-
 En este código, el color de cada píxel cambiará con el tiempo, creando una animación de colores basada en las funciones seno y coseno. La variable `time` se pasa al shader desde la aplicación.
-PENIENTE DE PRUEBA!!!!!!!!!!!!!!!!!!!!
+
+**Video de prueba:** https://www.canva.com/design/DAGnjYurDRw/TOf0pmMiDv8J8vP29AustQ/edit?utm_content=DAGnjYurDRw&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton
+

@@ -20,7 +20,7 @@ void main()
         pos.z += displacement;  // deformación en Z, como una ola
     }
 
-    gl_Position = modelViewProjectionMatrix * pos;
+    gl_Vertex = gl_ModelViewProjectionMatrix * pos;
 }
 
 

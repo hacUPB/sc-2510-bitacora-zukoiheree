@@ -1,19 +1,25 @@
 #version 150
 
-in vec3 v_normal;
-in vec3 v_pos;
+in vec4 position;
+in vec3 normal;
 
 uniform float u_time;
 uniform vec2 u_mouse;
 uniform vec2 u_resolution;
 
-out vec4 outputColor;
+out vec3 v_normal;
+out vec3 v_pos;
 
 void main() {
-// Color que varía con el tiempo y la posición
-float r = 0.5 + 0.5 * sin(u_time + v_pos.x * 0.01);
-float g = 0.5 + 0.5 * sin(u_time + v_pos.y * 0.01);
-float b = 0.5 + 0.5 * sin(u_time + length(v_pos.xy) * 0.01);
+vec4 pos = position;
 
-outputColor = vec4(r, g, b, 1.0);
-}
+// Deformación con ondas animadas usando el tiempo y posición
+float wave = sin(pos.x * 0.05 + u_time) * 30.0;
+wave += cos(pos.y * 0.1 + u_time * 1.5) * 20.0;
+
+pos.z += wave;
+
+v_pos = pos.xyz;
+v_normal = normal;
+
+gl_Position = modelViewProjectionMatrix * pos;

@@ -71,6 +71,7 @@ void ofApp::mouseMoved(int x, int y) {
 }
 ```
 **shadersGL2**
+
 `shader.vert`
 ```glsl
 OF_GLSL_SHADER_HEADER
@@ -102,6 +103,7 @@ void main() {
 ```
 
 **shadersGL3**
+
 `shader.vert`
 ```glsl
 #version 150

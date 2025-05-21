@@ -98,4 +98,5 @@ Basicamente hace lo mismo pero:
 - Ese color se interpola automáticamente entre los vértices durante el rasterizado.
 
 - El fragment shader simplemente recoge ese color interpolado y lo usa como color del píxel (outputColor).
-
+  
+https://www.canva.com/design/DAGoC1ipviQ/9IWVrRfcF-PLiyvHDxcwQA/edit?utm_content=DAGoC1ipviQ&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton

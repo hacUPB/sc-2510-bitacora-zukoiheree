@@ -75,6 +75,27 @@ if(dist > 0.0 && dist < mouseRange) {
 ...
 ```
 ---
+### - Realiza modificaciones al fragment shader para conseguir otros comportamientos.
 
+```
+#version 150
 
+// Recibe el color calculado en el vertex shader
+in vec4 vColor;
+
+// Salida final del color del píxel
+out vec4 outputColor;
+
+void main()
+{
+    // Usamos directamente el color interpolado que vino del vertex shader
+    outputColor = vColor;
+}
+```
+Basicamente hace lo mismo pero:
+- El vertex shader calcula un color (vColor) según la distancia del vértice al mouse.
+
+- Ese color se interpola automáticamente entre los vértices durante el rasterizado.
+
+- El fragment shader simplemente recoge ese color interpolado y lo usa como color del píxel (outputColor).
 

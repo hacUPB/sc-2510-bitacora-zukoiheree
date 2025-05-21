@@ -77,7 +77,7 @@ if(dist > 0.0 && dist < mouseRange) {
 ---
 ### - Realiza modificaciones al fragment shader para conseguir otros comportamientos.
 
-```
+```glsl
 #version 150
 
 // Recibe el color calculado en el vertex shader

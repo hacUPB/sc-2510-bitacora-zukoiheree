@@ -33,4 +33,48 @@ La comunicación entre la **aplicación (C++)** y los **shaders (GLSL)** se da p
    * El **vertex shader** recibe la posición del mouse y deforma los vértices cercanos.
    * El **fragment shader** usa `mouseColor` para colorear todos los píxeles.
 
+---
+
+### - Realiza modificaciones a ofApp.cpp y al vertex shader para conseguir otros comportamientos.
+
+**Cambios en `ofApp.cpp`**
+
+Cambia el gradiente de color para que vaya de **verde** a **rojo** en lugar de magenta a azul:
+
+```cpp
+// color cambia de verde a rojo según la posición horizontal del mouse
+ofFloatColor colorLeft = ofColor::green;
+ofFloatColor colorRight = ofColor::red;
+ofFloatColor colorMix = colorLeft.getLerped(colorRight, percentX);
+```
+
+También puedes aumentar el `mouseRange` para que el efecto abarque más área:
+
+```cpp
+shader.setUniform1f("mouseRange", 250); // antes: 150
+```
+**Cambios en el `vertex shader` (GL2 y GL3)**
+
+Modifica la intensidad del desplazamiento para que varíe **con un patrón de onda** (más expresivo visualmente):
+
+**Resultado en contexto (`shader.vert` para GL3):**
+
+```glsl
+...
+if(dist > 0.0 && dist < mouseRange) {
+    float distNorm = dist / mouseRange;
+    distNorm = 1.0 - distNorm;
+
+    //parte modificada
+    float intensity = sin(distNorm * 3.1415);
+    dir *= distNorm * intensity * 2.0; // <- nueva intensidad dinámica
+    
+    pos.x += dir.x;
+    pos.y += dir.y;
+}
+...
+```
+---
+
+
 

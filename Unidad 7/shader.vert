@@ -1,5 +1,9 @@
 OF_GLSL_SHADER_HEADER
 
+// these are for the programmable pipeline system
+uniform mat4 modelViewProjectionMatrix;
+in vec4 position;
+
 uniform float mouseRange;
 uniform vec2 mousePos;
 uniform vec4 mouseColor;
@@ -7,7 +11,7 @@ uniform vec4 mouseColor;
 void main()
 {
     // copy position so we can work with it.
-    vec4 pos = gl_Vertex;
+    vec4 pos = position;
     
     // direction vector from mouse position to vertex position.
 	vec2 dir = pos.xy - mousePos;
@@ -25,9 +29,8 @@ if(dist > 0.0 && dist < mouseRange) {
     
     pos.x += dir.x;
     pos.y += dir.y;
+}
 
-	}
-    
 	// finally set the pos to be that actual position rendered
-	gl_Position = gl_ModelViewProjectionMatrix * pos;
+	gl_Position = modelViewProjectionMatrix * pos;
 }

@@ -1,27 +1,33 @@
 OF_GLSL_SHADER_HEADER
 
-uniform mat4 modelViewProjectionMatrix;
-in vec4 position;
-
 uniform float mouseRange;
 uniform vec2 mousePos;
-uniform float time;
+uniform vec4 mouseColor;
 
 void main()
 {
-    vec4 pos = position;
-    vec2 dir = pos.xy - mousePos;
-    float dist = length(dir);
+    // copy position so we can work with it.
+    vec4 pos = gl_Vertex;
+    
+    // direction vector from mouse position to vertex position.
+	vec2 dir = pos.xy - mousePos;
+    
+    // distance between the mouse position and vertex position.
+	float dist =  sqrt(dir.x * dir.x + dir.y * dir.y);
+    
+    // check vertex is within mouse range.
+if(dist > 0.0 && dist < mouseRange) {
+    float distNorm = dist / mouseRange;
+    distNorm = 1.0 - distNorm;
+    
+    float intensity = sin(distNorm * 3.1415);
+    dir *= distNorm * intensity * 2.0; // <- nueva intensidad dinámica
+    
+    pos.x += dir.x;
+    pos.y += dir.y;
 
-    if (dist < mouseRange) {
-        float wave = sin(dist * 0.2 - time * 5.0);
-        float attenuation = (1.0 - dist / mouseRange);
-        float displacement = wave * attenuation * 20.0;
-        pos.z += displacement;  // deformación en Z, como una ola
-    }
-
-    gl_Vertex = gl_ModelViewProjectionMatrix * pos;
+	}
+    
+	// finally set the pos to be that actual position rendered
+	gl_Position = gl_ModelViewProjectionMatrix * pos;
 }
-
-
-
